@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pires de Baratas — jogo de cartas para adultos</title>
+<meta name="description" content="160 cartas para imprimir: mímica, situações do Murphy, respostas &quot;Podia ser pior&quot; e dilemas impossíveis. Jogo de cartas para adultos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=17">
+<link rel="icon" href="favicon.svg">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#">
+    <svg class="logo" viewBox="0 0 40 40" aria-label="Pires de Baratas" fill="none">
+      <circle cx="20" cy="22" r="12" stroke="currentColor" stroke-width="2.5"/>
+      <path d="M4 22h32" stroke="currentColor" stroke-width="2.5"/>
+      <path d="M20 10V3M13 12l-4-6M27 12l4-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="16" cy="20" r="1.8" fill="currentColor"/>
+      <circle cx="24" cy="20" r="1.8" fill="currentColor"/>
+    </svg>
+    <span class="brand-txt">PIRES<em>DE</em>BARATAS</span>
+  </a>
+  <nav class="tabs" id="tabs">
+    <button data-view="jogar" class="on">Jogar</button>
+    <button data-view="baralho">Baralho</button>
+    <button data-view="imprimir">Imprimir</button>
+    <button data-view="regras">Regras</button>
+  </nav>
+</header>
+
+<main>
+  <!-- JOGAR -->
+  <section id="v-jogar" class="view on">
+    <div class="play-wrap">
+      <div class="play-filters" id="playFilters">
+        <label><input type="checkbox" value="mimica" checked> Mímica</label>
+        <label><input type="checkbox" value="situacao" checked> Murphy</label>
+        <label><input type="checkbox" value="resposta" checked> Podia</label>
+        <label><input type="checkbox" value="dilema" checked> Dilemas</label>
+      </div>
+      <div id="stage" class="stage"></div>
+      <div class="play-actions">
+        <button id="draw" class="btn-big">Tirar carta</button>
+        <button id="worse" class="btn-worse" hidden>Mas podia ser pior…</button>
+        <button id="reshuffle" class="btn-ghost">Embaralhar de novo</button>
+      </div>
+      <p class="counter" id="counter"></p>
+
+      <div class="timer" id="timer">
+        <div class="timer-dial">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="tk" cx="60" cy="60" r="52"></circle>
+            <circle class="tp" id="tprog" cx="60" cy="60" r="52"></circle>
+          </svg>
+          <div class="timer-num" id="tnum" role="timer" aria-live="off">60</div>
+        </div>
+        <div class="timer-side">
+          <div class="timer-btns">
+            <button id="tstart" class="btn-time">Iniciar 60s</button>
+            <button id="treset" class="btn-ghost sm">Reiniciar</button>
+          </div>
+          <details class="timer-opts">
+          <summary>Opções</summary>
+          <div class="timer-set">
+            <span>Duração</span>
+            <button class="pill" data-sec="30">30s</button>
+            <button class="pill on" data-sec="60">60s</button>
+            <button class="pill" data-sec="90">90s</button>
+            <button class="pill" data-sec="120">2min</button>
+          </div>
+          <label class="toggle sm"><input type="checkbox" id="tauto" checked> Arrancar sozinho nas cartas de mímica</label>
+          <label class="toggle sm"><input type="checkbox" id="tsound" checked> Som e vibração</label>
+        </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BARALHO -->
+  <section id="v-baralho" class="view">
+    <div class="bar">
+      <h1>O baralho</h1>
+      <div class="chips" id="deckFilters">
+        <button class="chip on" data-f="todos">Todos <span></span></button>
+        <button class="chip" data-f="mimica">Mímica <span></span></button>
+        <button class="chip" data-f="situacao">Murphy <span></span></button>
+        <button class="chip" data-f="resposta">Podia <span></span></button>
+        <button class="chip" data-f="dilema">Dilemas <span></span></button>
+      </div>
+    </div>
+    <div id="grid" class="grid"></div>
+  </section>
+
+  <!-- IMPRIMIR -->
+  <section id="v-imprimir" class="view">
+    <div class="bar">
+      <h1>Imprimir</h1>
+      <p class="lead">Folhas A4 com 9 cartas (60 × 90 mm) e linhas de corte. Imprime a 100%, sem “ajustar à página”.</p>
+    </div>
+    <div class="printbar no-print">
+      <div class="chips" id="printFilters">
+        <button class="chip on" data-f="todos">Todas as 160</button>
+        <button class="chip" data-f="mimica">Só mímica</button>
+        <button class="chip" data-f="situacao">Só Murphy</button>
+        <button class="chip" data-f="resposta">Só Podia</button>
+        <button class="chip" data-f="dilema">Só dilemas</button>
+      </div>
+      <label class="toggle"><input type="checkbox" id="backs"> Incluir folha de versos</label>
+      <button id="print" class="btn-big">Imprimir / PDF</button>
+    </div>
+    <div id="sheets" class="sheets"></div>
+  </section>
+
+  <!-- REGRAS -->
+  <section id="v-regras" class="view">
+    <div class="rules">
+      <h1>Regras (fáceis de esquecer)</h1>
+      <ol>
+        <li><b>Mímica (40 cartas).</b> Tiras uma carta e representas a situação sem falar, sem sons, sem apontar objetos. 60 segundos — usa o cronómetro do ecrã Jogar, que arranca sozinho nestas cartas. Quem acertar ganha 1 ponto e fica com a carta.</li>
+        <li><b>Murphy + Podia (30 + 50 cartas).</b> Vira-se uma carta amarela com o desastre do Murphy e lê-se em voz alta, acabando em "mas podia ser pior…". Cada jogador tem na mão 5 cartas pretas e joga a que achar mais cruel. Quem leu a situação escolhe a vencedora às cegas: 1 ponto para o autor. Podem encadear duas respostas seguidas, como no original — cada uma piora a anterior.</li>
+        <li><b>Dilemas (40 cartas).</b> Lê-se a pergunta e as 3 opções. Todos escolhem em segredo e revelam ao mesmo tempo. Quem ficar sozinho na sua escolha bebe, paga a próxima rodada, ou explica-se durante 30 segundos — escolham o castigo antes de começar.</li>
+      </ol>
+      <h2>Preparação em 4 passos</h2>
+      <ol>
+        <li>Vai a <b>Imprimir</b> e escolhe o que queres levar para o papel.</li>
+        <li>Imprime em cartolina de 250–300 g, a 100%, frente simples.</li>
+        <li>Corta pelas linhas tracejadas (guilhotina se tiveres, paciência se não).</li>
+        <li>Arredonda os cantos se quiseres pose de jogo profissional.</li>
+      </ol>
+      <p class="warn">Humor adulto. Não recomendado para jantares de família com sogras sensíveis — ou exatamente para isso.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot no-print">160 cartas · 40 mímica · 30 Murphy · 50 Podia · 40 dilemas</footer>
+<script src="app.js?v=8"></script>
+</body>
+</html>
